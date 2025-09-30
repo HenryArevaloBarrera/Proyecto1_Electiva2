@@ -1,26 +1,22 @@
-import dotenv from "dotenv";
-dotenv.config({ path: "./.env" });
-
 import jwt from "jsonwebtoken";
-const SECRET_KEY = process.env.JWT_SECRET;
+import Usuario from "../models/usuario.mjs";
 
-export const authMiddleware = (req, res, next) => {
-  const authHeader = req.headers.authorization;
-  if (!authHeader) return res.status(401).json({ error: "No token" });
+export const authMiddleware = async (req, res, next) => {
+  const authHeader = req.headers["authorization"];
+  if (!authHeader) return res.status(401).json({ state: false, error: "Token no proporcionado" });
 
-  const parts = authHeader.split(" ");
-  if (parts.length !== 2 || parts[0] !== "Bearer") {
-    return res.status(401).json({ error: "Formato de token inválido" });
-  }
-
-  const token = parts[1];
-  if (!token) return res.status(401).json({ error: "Token inválido" });
+  const token = authHeader.split(" ")[1];
+  if (!token) return res.status(401).json({ state: false, error: "Token inválido" });
 
   try {
-    const decoded = jwt.verify(token, SECRET_KEY);
-    req.user = decoded;
+    const decoded = jwt.verify(token, process.env.JWT_SECRET);
+    // Buscar usuario por correo
+    const usuario = await Usuario.findOne({ correo: decoded.correo });
+    if (!usuario) return res.status(404).json({ state: false, error: "Usuario no encontrado" });
+
+    req.user = usuario; // asignamos todo el usuario a req.user
     next();
-  } catch (error) {
-    res.status(401).json({ error: "Token inválido o expirado" });
+  } catch (err) {
+    return res.status(401).json({ state: false, error: "Token inválido" });
   }
 };

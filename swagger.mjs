@@ -10,9 +10,9 @@ const swaggerOptions = {
       description: "Documentación de la API REST con Swagger",
     },
     servers: [
-      {
-        url: "https://taller1-electiva2.onrender.com/", // Pon tu URL base aquí, por ejemplo "http://localhost:3000"
-      },
+      { url: "http://localhost:3000", description: "Local" },
+      { url: "https://taller1-electiva2.onrender.com", description: "Producción" }
+      
     ],
     components: {
       securitySchemes: {

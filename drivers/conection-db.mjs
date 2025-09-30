@@ -1,10 +1,22 @@
 import mongoose from "mongoose";
-import dotenv from "dotenv";
 
-dotenv.config();
+let dbStatus = "❌ Desconectado";
 
-const URL = process.env.MONGO_URI;
+async function connectDB() {
+  try {
+    await mongoose.connect(process.env.MONGO_URI);
+    dbStatus = "✅ Conectado a Mongo Atlas";
+    console.log(dbStatus);
+  } catch (error) {
+    dbStatus = "❌ Error al conectar: " + error.message;
+    console.error(dbStatus);
+  }
+}
 
-mongoose.connect(URL)
-  .then(() => console.log("✅ Conectado a MongoDB Atlas"))
-  .catch(err => console.error("❌ Error al conectar:", err));
+// Ejecutar conexión
+connectDB();
+
+// 👇 Exportamos función, no solo el valor
+export function getDbStatus() {
+  return dbStatus;
+}
