@@ -24,6 +24,12 @@ const app = express();
 app.use(cors());
 app.use(express.static("public"));
 app.use(express.json());
+app.use((req, res, next) => {
+  res.setHeader("Cache-Control", "no-store, no-cache, must-revalidate, private");
+  res.setHeader("Pragma", "no-cache");
+  res.setHeader("Expires", "0");
+  next();
+});
 app.set("view engine", "ejs");
 app.set("views", "./views");
 
