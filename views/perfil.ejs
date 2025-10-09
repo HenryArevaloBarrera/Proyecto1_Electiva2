@@ -226,6 +226,44 @@
       } else productosList.innerHTML = '<p class="text-center text-danger">Error al cargar productos.</p>';
     }
 
+    // 🔹 Agregar producto
+    formAddProduct.addEventListener("submit", async e => {
+      e.preventDefault();
+      const data = {
+        titulo: formAddProduct.titulo.value,
+        descripcion: formAddProduct.descripcion.value,
+        categoria: formAddProduct.categoria.value,
+        precio: Number(formAddProduct.precio.value),
+        imagen: formAddProduct.imagen.value || "https://via.placeholder.com/200",
+        usuarioId: currentUserId
+      };
+
+      try {
+        const res = await fetch("/api/productos", {
+          method: "POST",
+          headers: { 
+            "Content-Type": "application/json",
+            "Authorization": "Bearer " + token 
+          },
+          body: JSON.stringify(data)
+        });
+        const json = await res.json();
+
+        if (json.state) {
+          showMessage("✅ Producto agregado correctamente!");
+          formAddProduct.reset();
+          const modal = bootstrap.Modal.getInstance(document.getElementById("addProductModal"));
+          modal.hide();
+          loadProducts(currentUserId);
+        } else {
+          showMessage("⚠️ " + (json.error || "No se pudo agregar el producto."), "danger");
+        }
+      } catch (err) {
+        showMessage("⚠️ Error de conexión con el servidor.", "danger");
+      }
+    });
+
+    // 🔹 Actualizar perfil
     formProfile.addEventListener("submit", async e => {
       e.preventDefault();
       const data = {
