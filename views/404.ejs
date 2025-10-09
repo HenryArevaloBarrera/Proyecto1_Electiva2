@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <%- include("templates/header") %>
+  <title>Página no encontrada | MyApp</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: "Inter", sans-serif;
+      background: linear-gradient(135deg, #1a1a1d, #2e2e38);
+      color: #fff;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      text-align: center;
+    }
+
+    h1 {
+      font-size: 6rem;
+      color: #4cafef;
+    }
+
+    p {
+      font-size: 1.5rem;
+      margin-bottom: 30px;
+    }
+
+    a.btn {
+      padding: 12px 24px;
+      border-radius: 50px;
+      text-decoration: none;
+      font-weight: 600;
+      background: linear-gradient(90deg, #4cafef, #3a8fd0);
+      color: #000;
+      transition: transform 0.3s, box-shadow 0.3s;
+    }
+
+    a.btn:hover {
+      transform: translateY(-2px) scale(1.05);
+      box-shadow: 0 6px 20px rgba(76,175,239,0.6);
+    }
+  </style>
+</head>
+<body>
+  <h1>404</h1>
+  <p>Oops! La página que buscas no existe.</p>
+  <a href="/" class="btn">Volver al inicio</a>
+</body>
+</html>

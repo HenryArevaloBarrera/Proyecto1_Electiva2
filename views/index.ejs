@@ -162,7 +162,7 @@
       <a href="/">MyApp</a>
     </div>
     <div class="menu">
-      <a href="/api/auth/login">Iniciar Sesión</a>
+      <a id="loginLink" href="/api/auth/login">Iniciar Sesión</a>
       <a href="/productos">Productos</a>
       <a href="/api-docs" target="_blank">Docs</a>
     </div>
@@ -173,7 +173,7 @@
     <div class="hero-content">
       <h1>MyApp</h1>
       <p>Accede fácilmente, administra tu cuenta y explora nuevas oportunidades. Todo en un solo lugar, de manera simple y moderna.</p>
-      <a href="/api/auth/login" class="btn btn-primary">Iniciar Sesión</a>
+      <a href="/login" id="heroLoginBtn" class="btn btn-primary">Iniciar Sesión</a>
       <a href="/productos" class="btn btn-secondary">Ver Productos</a>
     </div>
   </section>
@@ -182,5 +182,24 @@
   <footer>
     <p>© <%= new Date().getFullYear() %> MiApp. Todos los derechos reservados.</p>
   </footer>
+
+  <!-- 🔥 Script para cambiar el texto si hay sesión iniciada -->
+  <script>
+    document.addEventListener("DOMContentLoaded", () => {
+      const token = localStorage.getItem("token"); // o el nombre que uses
+      const loginLink = document.getElementById("loginLink");
+      const heroBtn = document.getElementById("heroLoginBtn");
+
+      if (token) {
+        loginLink.textContent = "Ver Perfil";
+        loginLink.href = "/perfil";
+
+        if (heroBtn) {
+          heroBtn.textContent = "Ver Perfil";
+          heroBtn.href = "/perfil";
+        }
+      }
+    });
+  </script>
 </body>
 </html>

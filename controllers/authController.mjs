@@ -24,7 +24,7 @@ async function login(req, res) {
         const token = jwt.sign(
   { correo: usuario.correo }, // ⚠️ usamos correo
   process.env.JWT_SECRET,
-  { expiresIn: "1h" }
+  { expiresIn: "5m" }
 );
 
         res.status(200).json({ state: true, token, usuario: { id: usuario._id, nombre: usuario.nombre, correo: usuario.correo } });
